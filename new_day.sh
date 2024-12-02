@@ -1,5 +1,5 @@
-YEAR_NUM=${1?"24"}
-DAY_NUM=$2
+YEAR_NUM=${2?"24"}
+DAY_NUM=$1
 
 ndir=y$YEAR_NUM/d$DAY_NUM
 if [[ -d $ndir ]]; then
