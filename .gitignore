@@ -163,3 +163,5 @@ cython_debug/
 __pycache__
 .envrc
 .DS_Store
+
+**/input.txt

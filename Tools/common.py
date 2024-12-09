@@ -21,3 +21,4 @@ def bin_string_to_int(bstring):
         if bstring[i] == '1':
             ans += 2**(len(bstring)-i-1)
     return ans
+
