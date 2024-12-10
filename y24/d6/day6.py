@@ -27,14 +27,17 @@ def do(input):
                 maze[line].append('.')
             else:
                 maze[line].append(input[line][dot])
+    rmax = len(maze)
+    cmax = len(maze[0])
+    
     visited = set([start])
     d = 'u'
     pos = start
     while True:
         x, y = pos
-        d = dir_list[diri%len(dir_list)]
+        d = dir_list[diri%4]
         xn, yn = dirs[d]
-        if x + xn >= len(maze) or x + xn < 0 or y + yn >= len(maze[0]) or y + yn < 0:
+        if x + xn >= rmax or x + xn < 0 or y + yn >= cmax or y + yn < 0:
             break
 
         if maze[x+xn][y+yn] == '#':
@@ -55,10 +58,10 @@ def do(input):
             pos = start
             while True:
                 x, y = pos
-                d = dir_list[diri%len(dir_list)]
+                d = dir_list[diri%4]
                 xn, yn = dirs[d]
 
-                if x + xn >= len(maze) or x + xn < 0 or y + yn >= len(maze[0]) or y + yn < 0:
+                if x + xn >= rmax or x + xn < 0 or y + yn >= cmax or y + yn < 0:
                     break
                 if (x+xn,y+yn,d) in v:
                     ans2 += 1
@@ -66,7 +69,7 @@ def do(input):
 
                 if maze[x+xn][y+yn] == '#' or (x+xn,y+yn) == a:
                     diri += 1
-                    d = dir_list[diri%len(dir_list)]
+                    d = dir_list[diri%4]
 
                 else:
                     pos = (x+xn, y+yn)
