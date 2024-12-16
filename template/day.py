@@ -13,14 +13,16 @@ def do(input):
 
     # Part 1
 
-
+    part1_end_time = time.time()
     # Part 2
 
 
     code_end_time = time.time()
     print("Part 1:\n{}".format(ans1))
     print("Part 2:\n{}".format(ans2))
-    print("Time: \n{}\n".format(code_end_time - code_start_time))
+    print("Time Part 1: \n{}\n".format(part1_end_time - code_start_time))
+    print("Time Part 2: \n{}\n".format(code_end_time - part1_end_time))
+    print("Total time: \n{}\n".format(code_end_time - code_start_time))
 
     return
 

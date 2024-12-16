@@ -14,7 +14,7 @@ def s_to_int_list(s, delimiter=None):
         return [int(a) for a in s.split(delimiter)]
     return [int(a) for a in s.split()]
 def s_to_pos_list(s):
-    return s
+    return re.findall(r'-?\d+', s)
 def bin_string_to_int(bstring):
     ans = 0
     for i in range(len(bstring)-1, -1, -1):
