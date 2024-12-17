@@ -37,21 +37,21 @@ def do(input):
         for c in range(cmax)
         for r in range(rmax)
         for d in dirs.keys()
-        if maze[r][c] == '.'
+        if maze[r][c] == '.'  and maze[r+dirs[d][0]][c+dirs[d][1]] == '.'
     }
+    ends = [(e[0],e[1], d) for d in dirs.keys() if (e[0],e[1],d) in dist] 
+
     prev = {
         (r,c,d): None
-        for c in range(cmax)
-        for r in range(rmax)
-        for d in dirs.keys()
-        if maze[r][c] == '.'
+        for (r,c,d) in dist.keys()
     }
     dist[start] = 0
+    prev[start] = []
 
     q = set([d for d in dist.keys()])
 
     # Part 1
-
+    oppdir = {'d': 'u', 'u':'d', 'r':'l', 'l':'r'}
     while q:
         mindist = math.inf
         for coord in q:
@@ -60,17 +60,17 @@ def do(input):
                 mindist = dist[coord]
         r,c,d = f
         q.remove(f)
-        nbs = [(r+rd, c+cd, d) for d, (rd,cd) in dirs.items()]
-        for dn in dirs.keys():
-            if dn != d:
-                nbs.append((r,c,dn))
-        nbs = [(rr,cc,dd) for (rr,cc,dd) in nbs if 0 <= rr < rmax and 0 <= cc < cmax and maze[rr][cc] == '.']
+        nbs = [(r+rd, c+cd, dd) for (rd,cd) in dirs.values() for dd in dirs
+            if 0 <= r+rd < rmax and 0 <= c+cd < cmax
+            and maze[r+rd][c+cd] == '.' and (r+rd,c+cd,dd) in dist and (r+rd,c+cd,dd) in q]
         for nb in nbs:
                 rn, cn, dn = nb
                                 
                 ndist = mindist + abs(r-rn) + abs(c-cn)
                 if dn != d:
                     ndist += 1000
+                    if dn == oppdir[d]:
+                        ndist += 1000
                 if ndist < dist[nb]:
                     dist[nb] = ndist
                     prev[nb] = [f]
