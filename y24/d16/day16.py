@@ -48,21 +48,25 @@ def do(input):
     dist[start] = 0
     prev[start] = []
 
-    q = set([d for d in dist.keys()])
+    q = set([start])
 
+    from heapq import heapify, heappop, heappush 
+    q = [(0, start)]
+    heapify(q)
     # Part 1
     oppdir = {'d': 'u', 'u':'d', 'r':'l', 'l':'r'}
     while q:
-        mindist = math.inf
-        for coord in q:
-            if dist[coord] < mindist:
-                f = coord
-                mindist = dist[coord]
-        r,c,d = f
-        q.remove(f)
+        # mindist = math.inf
+        # for coord in q:
+        #     if dist[coord] < mindist:
+        #         f = coord
+        #         mindist = dist[coord]
+        # r,c,d = f
+        f = heappop(q)
+        mindist,(r,c,d) = f
         nbs = [(r+rd, c+cd, dd) for (rd,cd) in dirs.values() for dd in dirs
             if 0 <= r+rd < rmax and 0 <= c+cd < cmax
-            and maze[r+rd][c+cd] == '.' and (r+rd,c+cd,dd) in dist and (r+rd,c+cd,dd) in q]
+            and maze[r+rd][c+cd] == '.' and (r+rd,c+cd,dd) in dist]
         for nb in nbs:
                 rn, cn, dn = nb
                                 
@@ -73,9 +77,10 @@ def do(input):
                         ndist += 1000
                 if ndist < dist[nb]:
                     dist[nb] = ndist
-                    prev[nb] = [f]
+                    prev[nb] = [(r,c,d)]
+                    heappush(q, (ndist, nb))
                 elif ndist == dist[nb]:
-                    prev[nb].append(f)
+                    prev[nb].append((r,c,d))
 
     mindist = math.inf
     for end in ends:
@@ -108,58 +113,9 @@ def do(input):
 
         if currlist:
             for pr in currlist:
-
                 q.append(pr)
+
     ans2 = len(best)
-
-
-    # q = [(set([s]),s, 'r', 0)]
-    # found_p = []
-    # mindist = math.inf
-    # minlen = math.inf
-    # invdir = {(1,0): 'd', (0,1): 'r', (-1,0): 'u', (0, -1): 'l'}
-
-    # while q:
-    #     path, last, dir, dist = q[0]
-    #     q.remove((path, last, dir, dist))
-    #     path.add(last)
-    #     if dist > mindist:
-    #         continue
-    #     rr, cc = last
-    #     if (rr,cc) == e:
-    #         if dist < mindist:
-    #             mindist = dist
-    #             found_p = [[p for p in path]]
-    #         else:
-    #             found_p.append([p for p in path])
-
-    #         continue
-        
-    #     nbs = [(rr+rd, cc+cd) for rd,cd in dirs.values()]
-    #     for nb in nbs:
-    #         rb,cb = nb
-    #         if (0 <= rb < rmax) and (0 <= cb < cmax) and maze[rb][cb] == '.' and (rb,cb) not in path:
-
-    #             if (rr - rb, cc - cb ) != dirs[dir]:
-    #                 distn = dist + 1001
-    #                 dirn = invdir[(rr - rb, cc - cb)]
-    #             else:
-    #                 distn = dist + 1
-    #                 dirn = invdir[(rr - rb, cc - cb)]
-
-    #             p = set(path)
-    #             q.append((p, (rb, cb), dirn, distn))
-
-        
-    # ans1 = mindist
-
-    # best = set()
-
-    # for path in found_p:
-    #     for p in path:
-    #         best.add(p)
-    
-    # ans2 = len(best)
 
 
     code_end_time = time.time()
