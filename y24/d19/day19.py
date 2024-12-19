@@ -14,7 +14,6 @@ def do(input):
     # Part 1
     patterns, towels = input.split('\n\n')
     patterns = patterns.split(', ')
-    patterns = [(pattern, len(pattern)) for pattern in patterns]
     towels = towels.splitlines()
 
     good_towels = []
@@ -23,13 +22,13 @@ def do(input):
         q = [towel]
         while q:
             rem_towel = q.pop()
-            if len(rem_towel) == 0:
+            if rem_towel == '':
                 ans1 += 1
                 good_towels.append(towel)
                 break
-            for pattern, l in patterns:
-                if l <= len(rem_towel) and rem_towel.startswith(pattern):
-                    q.append(rem_towel[l:])
+            for pattern in patterns:
+                if rem_towel.startswith(pattern):
+                    q.append(rem_towel.removeprefix(pattern))
 
 
     part1_end_time = time.time()
@@ -38,14 +37,14 @@ def do(input):
     cache_remaining = {}
     
     def get_total(towel_strip):
-        if len(towel_strip) == 0:
+        if towel_strip == '':
             return 1
         if towel_strip in cache_remaining:
             return cache_remaining[towel_strip]
         tot = 0
-        for pattern, l in patterns:
-            if l <= len(towel_strip) and towel_strip.startswith(pattern):
-                tot += get_total(towel_strip[l:])
+        for pattern in patterns:
+            if towel_strip.startswith(pattern):
+                tot += get_total(towel_strip.removeprefix(pattern))
         cache_remaining[towel_strip] = tot
         return tot
 
