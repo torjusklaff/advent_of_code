@@ -12,50 +12,40 @@ def do(input):
     ans2 = 0
 
     # Part 1
-    all_bananas = []
-    all_banana_diffs = []
-    pos_sequences = set()
+    all_banana_diffs = {}
     for secret_start in input.splitlines():
         secret = int(secret_start)
         bananas_for_sale = [secret%10]
+        banana_diffs = {}
+        diffs = []
         for it in range(2000):
             temp = (secret*64^secret)%16777216
             temp2 = ((temp//32)^temp)%16777216
             secret = (temp2*2048^temp2)%16777216
             bananas_for_sale.append(secret%10)
+            diffs.append(str(bananas_for_sale[-1] - bananas_for_sale[-2]))
+            if it > 2:
+                diff_seq = ''.join(diffs[it-3:it+1])
+                if diff_seq not in banana_diffs:
+                    banana_diffs[diff_seq] = bananas_for_sale[-1]
         ans1 += secret
-        all_bananas.append(bananas_for_sale)
-        banana_diffs = {}
-        for i in range(1,2001-4):
-            b_diffs = ''
-            for j in range(4):
-                b_diffs += str(bananas_for_sale[i+j]-bananas_for_sale[i+j-1])
-            if b_diffs not in banana_diffs:
-                banana_diffs[b_diffs] = bananas_for_sale[i+3]
                 
-            pos_sequences.add(b_diffs)
-
-        all_banana_diffs.append(banana_diffs)
+        for bdiff, tot in banana_diffs.items():
+            try:
+                all_banana_diffs[bdiff] += tot
+            except KeyError:
+                all_banana_diffs[bdiff] = tot
 
     part1_end_time = time.time()
 
     # Part 2
+
     max_bananas = 0
-    for pos_sequence in pos_sequences:
-        pos_max = 0
-        for b in range(len(all_banana_diffs)):
-            try:
-                pos_max += all_banana_diffs[b][pos_sequence]
+    for bdiff, tot in all_banana_diffs.items():
+        if tot > max_bananas:
+            max_bananas = tot
 
-            except Exception:
-                if pos_max + (len(all_bananas) - b)*9 < max_bananas:
-                    break
-                continue
-            
-        if pos_max > max_bananas:
-            max_bananas = pos_max
-
-
+    print(len(all_banana_diffs))
     ans2 = max_bananas
 
 

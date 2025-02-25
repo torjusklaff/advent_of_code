@@ -31,6 +31,7 @@ def do(input):
     cmax = len(maze[0])
     
     visited = set([start])
+    visi = {start: (start[0], start[1], 'u')}
     d = 'u'
     pos = start
     while True:
@@ -44,6 +45,8 @@ def do(input):
             diri += 1
         else:
             pos = (x+xn, y+yn)
+            if pos not in visi:
+                visi[pos] = (x, y, diri)
 
         visited.add(pos)
     ans1 = len(visited)
@@ -51,11 +54,12 @@ def do(input):
 
     # Part 2
     
-    for a in visited:
+    for a, b in visi.items():
         if a != start:
             v = set()
             diri = 0 
-            pos = start
+            xl, yl, diri = b
+            pos = (xl, yl)
             while True:
                 x, y = pos
                 d = dir_list[diri%4]
