@@ -5,7 +5,7 @@ import time
 
 day = 
 
-def do(input):
+def do(input, example):
     code_start_time = time.time()
 
     ans1 = 0
@@ -29,9 +29,9 @@ def do(input):
 def main():
     print("\nDay: {}\n".format(day))
     print("Example: ")
-    do(readfile(str(filepath)+"/example.txt"))
+    do(readfile(str(filepath)+"/example.txt"), True)
     print("Input: ")
-    do(readfile(str(filepath)+"/input.txt"))
+    do(readfile(str(filepath)+"/input.txt"), False)
 
 if __name__=="__main__":
     main()

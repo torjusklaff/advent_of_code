@@ -1,4 +1,4 @@
-YEAR_NUM="${2:-"24"}"
+YEAR_NUM="${2:-"25"}"
 DAY_NUM=$1
 
 ndir=y$YEAR_NUM/d$DAY_NUM
