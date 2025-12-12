@@ -31,7 +31,7 @@ def do(input):
     lines = input.splitlines()
     q = [0]*len(lines[0])
     q[start] = 1
-    for line in input.splitlines()[1::]:
+    for line in input.splitlines()[1:]:
 
         nextq = [a for a in q]
         for j in range(len(q)):
@@ -42,18 +42,6 @@ def do(input):
                     nextq[j] = 0
         q = list(nextq)
     ans2 = sum(q)
-
-    # q = [(0, start)]
-
-    # while q:
-    #     lin, ind = q.pop(0)
-    #     for i in range(lin + 1, len(lines)):
-    #         if lines[i][ind] == '^':
-    #             ind -= 1
-    #             q.append((i,ind + 2))
-    #     ans2 += 1
-
-
 
     code_end_time = time.time()
     print("Part 1:\n{}".format(ans1))
